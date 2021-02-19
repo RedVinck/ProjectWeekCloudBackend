@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: product-http-80
+spec:
+  rules:
+  - host: product.ydbcluster-fra02-b3c-4x16-162e406f043e20da9b0ef0731954a894-0000.eu-de.containers.appdomain.cloud
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: product
+          servicePort: 8080
