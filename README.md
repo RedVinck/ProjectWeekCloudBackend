@@ -186,7 +186,7 @@ public class ProductController {
 # mvn spring-boot:run
 ```
 
-Open a browser and open the url: <http://localhost:3000/products>
+Open a browser and open the url: <http://localhost:8080/products>
 You should get a JSON result of 3 products.
 
 ## Dockerize Spring Boot application
@@ -197,7 +197,7 @@ First create a build of the application:
 # mvn clean install
 ```
 
-This will result in a "demo-0.0.1-snapshot.jar" file being create in the target directory.
+This will result in a "demo-0.0.1-snapshot.jar" file being created in the target directory.
 
 Create a "Dockerfile" in the root of the project directory:
 
@@ -212,7 +212,7 @@ ADD target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=container", "-jar", "/app/app.jar"]
 ```
 
-Create a docker image and test it locally;
+Create a docker image and test it locally:
 
 ```
 # docker build -t product:1.0 .
@@ -227,7 +227,7 @@ Check the application : open a browser <http://localhost:3000/products>
 ## Deploy Docker image on Kubernetes
 
 In order to be able to deploy the image, we will need to store the image in a registry which can be accessed by our Kubernetes cluster.
-This can be a public registry such a dockerhub.io or in this case we will use a private container registry within IBM CLoud.
+This can be a public registry such a hub.docker.com or in this case we will use a private container registry within IBM CLoud.
 
 First you will need to provision a "Container Registry"-service within IBM Cloud : <https://cloud.ibm.com/registry/catalog>
 
@@ -235,7 +235,7 @@ Next - Create a namespace within your newly created registry in your preferred r
 
 ### Push the local Docker image to the IBM Cloud Container Registry
 
-First tag the local image to point to the remote registry. In the example below we replace the previous tag "product:1.0" with de.icr.io/ydbnamespace/product:1.0
+First tag the local image to point to the remote registry. In the example below we replace the tag "product:1.0" with "de.icr.io/ydbnamespace/product:1.0"
 
 ```
 # docker tag -r product:1.0 de.icr.io/ydbnamespace/product:1.0
@@ -252,7 +252,7 @@ Next login to IBM Cloud and to the repository:
 ...
 
 ```
-### Push image to remote repostory
+### Push image to remote repository
 
 ```
 # docker push de.icr.io/ydbnamespace/product:1.0
@@ -276,11 +276,11 @@ de.icr.io/ydbnamespace/product    1.0   30804ebe2a73   ydbnamespace   1 hour ago
 ```
 
 Create a Secret in OpenShift: Goto the OpenShift Console and select the Administrator perspective.
-Select Workloads -> Secrets, and create a new "Image Pull Secret", giev it a name e.g. "mysecret".
+Select Workloads -> Secrets, and create a new "Image Pull Secret", give it a name e.g. "mysecret".
 
 * Fill in the "Registry Server Address" : e.g. "de.icr.io" (depending on your selected region).
 * Username: iamapikey
-* Password: <apikey from mykey.json-file>
+* Password: \<apikey from mykey.json-file>
 
 ### Create a kubernetes deployment and deploy to OpenShift
 
@@ -299,7 +299,7 @@ Select Workloads -> Secrets, and create a new "Image Pull Secret", giev it a nam
 ### Create a route via ingress
 
 For this you will need to know the Ingress subdomain of your cluster.
-You can find this info at the Pverview Summary page of you cluster.
+You can find this info at the Overview Summary page of you cluster.
 The Ingress subdomain is the DNS domain that has been reserved for your cluster.
 All applications that get deployed will get this domain as a suffix.
 
