@@ -1,11 +1,11 @@
 # Create a Spring Boot Service
 
-1. Setting up Development Environment
+1. Setting up development environment
 
 	Check the quickstart guide on : <https://spring.io/quickstart>
 	to install the Java SDK
 	
-2. Install the Java Deopencies tool "Maven"
+2. Install the Java dependencies tool "Maven"
 3. Create a Spring Boot Project:
 
 	Check the guide : <https://spring.io/guides/gs/spring-boot/>
@@ -28,157 +28,157 @@ In the next step we will create a Product Application : a web service that will 
 
 ### Rename DemoApplication.java -> ProductApplication.java
 
-	Make sure to refactor the code so you don't have any errors.
-	The code should look something like this:
+Make sure to refactor the code so you don't have any errors.
+The code should look something like this:
 	
-	```
-	package com.example.demo;
+```
+package com.example.demo;
 
-	import org.springframework.boot.SpringApplication;
-	import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 	
-	@SpringBootApplication
-	public class ProductApplication {
+@SpringBootApplication
+public class ProductApplication {
 	
-		public static void main(String[] args) {
-			SpringApplication.run(ProductApplication.class, args);
-		}
-	
+	public static void main(String[] args) {
+		SpringApplication.run(ProductApplication.class, args);
 	}
-	```
-	This is the main application code that will start our springboot application.
+	
+}
+```
+
+This is the main application code that will start our springboot application.
 
 ### Next create a "Product.java" file that will describe our Product class (including getters and setters)
 	
-	Here's the code for the Product class:
+Here's the code for the Product class:
 	
-	```
-	package com.example.demo;
+```
+package com.example.demo;
 
-	public class Product {
+public class Product {
 	
-	    private String id;
-	    private String title;
-	    private String description;
-	    private String thumbnail_url;
-	    private int quantity;
-	    private float price;
+    private String id;
+    private String title;
+    private String description;
+    private String thumbnail_url;
+    private int quantity;
+    private float price;
 	
-	    public Product() {
+    public Product() {
 	
-	    }
+    }
 	
-	    public Product(String id, String title, String description, String thumbnail_url, int quantity, float price) {
-	        super();
-	        this.id = id;
-	        this.title = title;
-	        this.description = description;
-	        this.thumbnail_url = thumbnail_url;
-	        this.quantity = quantity;
-	        this.price = price;
-	    }
+    public Product(String id, String title, String description, String thumbnail_url, int quantity, float price) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.thumbnail_url = thumbnail_url;
+        this.quantity = quantity;
+        this.price = price;
+    }
 	
-	    public String getId() {
-	        return id;
-	    }
+    public String getId() {
+        return id;
+    }
 	
-	    public void setId(String id) {
-	        this.id = id;
-	    }
+    public void setId(String id) {
+        this.id = id;
+    }
 	
-	    public String getTitle() {
-	        return title;
-	    }
+    public String getTitle() {
+        return title;
+    }
 	
-	    public void setTitle(String title) {
-	        this.title = title;
-	    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 	
-	    public String getDescription() {
-	        return description;
-	    }
+    public String getDescription() {
+        return description;
+    }
 	
-	    public void setDescription(String description) {
-	        this.description = description;
-	    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 	
-	    public String getThumbnail_url() {
-	        return thumbnail_url;
-	    }
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
 	
-	    public void setThumbnail_url(String thumbnail_url) {
-	        this.thumbnail_url = thumbnail_url;
-	    }
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
 	
-	    public int getQuantity() {
-	        return quantity;
-	    }
+    public int getQuantity() {
+        return quantity;
+    }
 	
-	    public void setQuantity(int quantity) {
-	        this.quantity = quantity;
-	    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 	
-	    public float getPrice() {
-	        return price;
-	    }
+    public float getPrice() {
+        return price;
+    }
 	
-	    public void setPrice(int price) {
-	        this.price = price;
-	    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 	
-	}
-	```
-
+}
+```
 	
 ### Create another file "ProductController.java" which will implement a RestControler
 
-	Here's the code:
+Here's the code:
 	
-	```
-	package com.example.demo;
-		
-	import java.util.Arrays;
-	import java.util.List;
+```
+package com.example.demo;
 	
-	import org.springframework.web.bind.annotation.CrossOrigin;
-	import org.springframework.web.bind.annotation.RequestMapping;
-	import org.springframework.web.bind.annotation.RestController;
+import java.util.Arrays;
+import java.util.List;
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RestController
-	public class ProductController {
-	    
-	    @RequestMapping("/products")
-	    public List<Product> getAllProducts() {
-	        return Arrays.asList(
-	            new Product(
-	                "1",
-	                "macbook Retina 13.3' ME662 (2013)",
-	                "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
-	                "https://www.dropbox.com/s/swg9bdr0ejcbtrl/img9.jpg?raw=1",
-	                10,
-	                2399
-	            ),
-	            new Product(
-	                "2",
-	                "Macbook Pro 13.3' Retina MF841LL/A",
-	                "Macbook Pro 13.3' Retina MF841LL/A Model 2015 Option Ram Care 12/2016",
-	                "https://www.dropbox.com/s/6tqcep7rk29l59e/img2.jpeg?raw=1",
-	                15,
-	                1199
-	            ),
-	            new Product(
-	                "3",
-	                "Macbook Pro 15.4' Retina MC975LL/A Model 2012",
-	                "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
-	                "https://www.dropbox.com/s/78fot6w894stu3n/img3.jpg?raw=1",
-	                1,
-	                1800
-	            )
-	        );
-	    }
-	}
-	```
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+	
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
+public class ProductController {
+    
+    @RequestMapping("/products")
+    public List<Product> getAllProducts() {
+        return Arrays.asList(
+            new Product(
+                "1",
+                "macbook Retina 13.3' ME662 (2013)",
+                "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
+                "https://www.dropbox.com/s/swg9bdr0ejcbtrl/img9.jpg?raw=1",
+                10,
+                2399
+            ),
+            new Product(
+                "2",
+                "Macbook Pro 13.3' Retina MF841LL/A",
+                "Macbook Pro 13.3' Retina MF841LL/A Model 2015 Option Ram Care 12/2016",
+                "https://www.dropbox.com/s/6tqcep7rk29l59e/img2.jpeg?raw=1",
+                15,
+                1199
+            ),
+            new Product(
+                "3",
+                "Macbook Pro 15.4' Retina MC975LL/A Model 2012",
+                "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
+                "https://www.dropbox.com/s/78fot6w894stu3n/img3.jpg?raw=1",
+                1,
+                1800
+            )
+        );
+    }
+}
+```
 
 ### Start the application and check it's working correctly
 
