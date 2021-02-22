@@ -369,6 +369,19 @@ Fill in the form:
 * Name: e.g. productservice
 * Click Create
 
+Once the build completes, you can verify the service by clicking on the 'Route' generated as part of the deployment.
+
+This should result in a full deployment of the application. the "Build Config" will create a "Build" to construct the final image. Once the Deployment has completed, you can verify the application is working correctly by clicking on the generated route URL.
+
+Adding a Github Webhook to automatically update the Openshift deployment as soon as new code is pushed into the repository:
+
+* Goto the "Build Config" and select your specific Build Config
+* Click the Github "Copy URL with Secret"
+* Goto to your Github project on "github.com" and select "Settings" -> Webhooks
+* Add a new webhook and paste the URL copied in previous step in "Payload URL"
+* Select "application/json" as Content Type
+* Click "Add webhook"
+* The result of this configuration will trigger a new build run on Openshift as soon as new code gets committed into the repository.
 
 
 
