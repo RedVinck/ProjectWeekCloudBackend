@@ -1,4 +1,4 @@
-# Create a Spring Boot Service
+# Create a Spring Boot Web Service
 
 1. Setting up development environment
 
@@ -197,7 +197,7 @@ First create a build of the application:
 # mvn clean install
 ```
 
-This will result in a "demo-0.0.1-snapshot.jar" file being created in the target directory.
+This will result in a "demo-0.0.1-snapshot.jar" file being created in the "target" directory.
 
 Create a "Dockerfile" in the root of the project directory:
 
@@ -231,11 +231,11 @@ This can be a public registry such a hub.docker.com or in this case we will use 
 
 First you will need to provision a "Container Registry"-service within IBM Cloud : <https://cloud.ibm.com/registry/catalog>
 
-Next - Create a namespace within your newly created registry in your preferred region.
+Next - Create a namespace within your newly created registry in your preferred region: e.g. '\<your intials>namespace'
 
 ### Push the local Docker image to the IBM Cloud Container Registry
 
-First tag the local image to point to the remote registry. In the example below we replace the tag "product:1.0" with "de.icr.io/ydbnamespace/product:1.0"
+First tag the local image to point to the remote registry. In the example below we replace the tag "product:1.0" with "de.icr.io/ydbnamespace/product:1.0" (this points to a registry within the "Frankfurt" region)
 
 ```
 # docker tag -r product:1.0 de.icr.io/ydbnamespace/product:1.0
@@ -243,7 +243,7 @@ First tag the local image to point to the remote registry. In the example below 
 REPOSITORY                                 TAG              IMAGE ID       CREATED        SIZE
 de.icr.io/ydbnamespace/product             1.0              ffc3ba48e36f   2 hours ago    508MB
 ```
-Next login to IBM Cloud and to the repository:
+Next login to IBM Cloud and to the regsitry (cr stands for 'container registry'):
 
 ```
 # ibmcloud login
@@ -303,6 +303,8 @@ You can find this info at the Overview Summary page of you cluster.
 The Ingress subdomain is the DNS domain that has been reserved for your cluster.
 All applications that get deployed will get this domain as a suffix.
 
+Create a file 'ingress.yaml' - replace with the correct host info and apply the yaml file:
+
 ```
 # cat ingress.yaml
 apiVersion: extensions/v1beta1
@@ -331,6 +333,43 @@ Alternatively, instead of using ingress, Openshift also provides an easy way to 
 ```
 
 Of course, you don't have to expose the service via a route if it's only for internal use.
+
+## Automate deployment via Git
+
+In the previous steps you have experienced how to create an application and how to deploy it as a container onto an Openshift cluster.
+
+Each time you would do an update to the application source code, you would have to go through all those steps again.
+
+In the next steps we will show how you can automate this whole process.
+First create a new projcet in Github and check in your code from the springboot application into this repo.
+
+For example: create a new repo in Github: 'springboot-productservice'
+
+Next Goto your local directory where you have developed the springboot application:
+
+```
+# cd <application>
+# echo "# springboot-productservice" >> README.md
+# git init
+# git add .
+# git commit -m "first commit"
+# git branch -M master
+# git remote add origin https://github.com/<gitusername>/springboot-productservice.git
+# git push -u origin master
+```
+
+If you followed the previous step to Dockerize the application you should have a Dockerfile ready to use.
+
+Open the Openshift Console and open the Developer perspective.
+Click "Add" - "From Dockerfile"
+Fill in the form:
+* Git Repo URL: e.g. https://github.com/username/springboot-productservice.git
+* Select Application -> Create Application
+* Application Name : e.g. productservice
+* Name: e.g. productservice
+* Click Create
+
+
 
 
 
