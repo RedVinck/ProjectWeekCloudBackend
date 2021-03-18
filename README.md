@@ -338,7 +338,7 @@ In the previous steps you have experienced how to create an application and how 
 Each time you would do an update to the application source code, you would have to go through all those steps again.
 
 In the next steps we will show how you can automate this whole process.
-First create a new projcet in Github and check in your code from the springboot application into this repo.
+First create a new repository in github.com and check in your code from the springboot application into this repo.
 
 For example: create a new repo in Github: 'springboot-productservice'
 
@@ -360,7 +360,8 @@ If you followed the previous step to Dockerize the application you should have a
 Open the Openshift Console and open the Developer perspective.
 Click "Add" - "From Dockerfile"
 Fill in the form:
-* Git Repo URL: e.g. https://github.com/username/springboot-productservice.git
+* Git Repo URL: e.g. https://github.com/<username>/springboot-productservice.git
+* Container Port: 8000
 * Select Application -> Create Application
 * Application Name : e.g. productservice
 * Name: e.g. productservice
