@@ -1,13 +1,16 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: product-http-80
 spec:
   rules:
-  - host: product.ydbcluster-fra02-b3c-4x16-162e406f043e20da9b0ef0731954a894-0000.eu-de.containers.appdomain.cloud
+  - host: ucllprep01.ocp-ucll-40cb0df2b03969eabb3fac6e80373775-0000.eu-de.containers.appdomain.cloud
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: product
-          servicePort: 8080
+          service:
+            name: product
+            port:
+              number: 8000

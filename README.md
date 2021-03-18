@@ -155,7 +155,7 @@ public class ProductController {
                 "1",
                 "macbook Retina 13.3' ME662 (2013)",
                 "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
-                "https://www.dropbox.com/s/swg9bdr0ejcbtrl/img9.jpg?raw=1",
+                "https://macbookpics.s3.eu-de.cloud-object-storage.appdomain.cloud/img1.jpeg",
                 10,
                 2399
             ),
@@ -163,7 +163,7 @@ public class ProductController {
                 "2",
                 "Macbook Pro 13.3' Retina MF841LL/A",
                 "Macbook Pro 13.3' Retina MF841LL/A Model 2015 Option Ram Care 12/2016",
-                "https://www.dropbox.com/s/6tqcep7rk29l59e/img2.jpeg?raw=1",
+                "https://macbookpics.s3.eu-de.cloud-object-storage.appdomain.cloud/img2.jpeg",
                 15,
                 1199
             ),
@@ -171,7 +171,7 @@ public class ProductController {
                 "3",
                 "Macbook Pro 15.4' Retina MC975LL/A Model 2012",
                 "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
-                "https://www.dropbox.com/s/78fot6w894stu3n/img3.jpg?raw=1",
+                "https://macbookpics.s3.eu-de.cloud-object-storage.appdomain.cloud/img3.jpeg",
                 1,
                 1800
             )
@@ -179,14 +179,17 @@ public class ProductController {
     }
 }
 ```
-
+### Modify to server listening port to 8000 instead of 8080
+```
+Add 'server.port=8000' to 'src/main/resources/application.properties' 
+```
 ### Start the application and check it's working correctly
 
 ```
 # mvn spring-boot:run
 ```
 
-Open a browser and open the url: <http://localhost:8080/products>
+Open a browser and open the url: <http://localhost:8000/products>
 You should get a JSON result of 3 products.
 
 ## Dockerize Spring Boot application
@@ -205,7 +208,7 @@ Create a "Dockerfile" in the root of the project directory:
 # cat Dockerfile
 FROM openjdk:13-oracle
 VOLUME /tmp
-EXPOSE 8082
+EXPOSE 8000
 RUN mkdir -p /app/
 RUN mkdir -p /app/logs/
 ADD target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
@@ -220,42 +223,54 @@ Create a docker image and test it locally:
 Start a container using the newly created image
 
 ```
-# docker run --name productservice -d -p 3000:8080 product:1.0
+# docker run --name productservice -d -p 8000:8000 product:1.0
 ```
 Check the application : open a browser <http://localhost:3000/products>
+
+## Install IBM Cloud command-line and RedHat OpenShift tools:
+
+https://cloud.ibm.com/docs/cli?topic=cli-getting-started
+
+https://docs.openshift.com/container-platform/4.6/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli
 
 ## Deploy Docker image on Kubernetes
 
 In order to be able to deploy the image, we will need to store the image in a registry which can be accessed by our Kubernetes cluster.
 This can be a public registry such a hub.docker.com or in this case we will use a private container registry within IBM CLoud.
 
-First you will need to provision a "Container Registry"-service within IBM Cloud : <https://cloud.ibm.com/registry/catalog>
-
-Next - Create a namespace within your newly created registry in your preferred region: e.g. '\<your intials>namespace'
+You will use the "IBM Cloud Container Registry"-service within IBM Cloud (Frankfurt Region) and use an existing namespace which has already been provide for you.
 
 ### Push the local Docker image to the IBM Cloud Container Registry
 
-First tag the local image to point to the remote registry. In the example below we replace the tag "product:1.0" with "de.icr.io/ydbnamespace/product:1.0" (this points to a registry within the "Frankfurt" region)
+First login to IBM Cloud and to the regsitry (cr stands for 'container registry'):
 
 ```
-# docker tag -r product:1.0 de.icr.io/ydbnamespace/product:1.0
-# docker images
-REPOSITORY                                 TAG              IMAGE ID       CREATED        SIZE
-de.icr.io/ydbnamespace/product             1.0              ffc3ba48e36f   2 hours ago    508MB
+# ibmcloud login --sso
 ```
-Next login to IBM Cloud and to the regsitry (cr stands for 'container registry'):
-
+This will allow to login using a one-time password via a browser, authentication
+ 
 ```
-# ibmcloud login
+# ibmcloud target -r eu-de
 # ibmdloud cr login
 # ibmcloud cr namespace-list
 ...
 
 ```
+Take a not of the namespace !!!
+
+Next tag the local docker image to point to the remote registry. In the example below we replace the tag "product:1.0" with "de.icr.io/<your_namespace>/product:1.0" (this points to a registry within the "Frankfurt" region)
+
+```
+# docker tag product:1.0 de.icr.io/<your_namespace>/product:1.0
+# docker images
+REPOSITORY                                 TAG              IMAGE ID       CREATED        SIZE
+de.icr.io/<your_namespace>/product             1.0              ffc3ba48e36f   2 hours ago    508MB
+```
+
 ### Push image to remote repository
 
 ```
-# docker push de.icr.io/ydbnamespace/product:1.0
+# docker push de.icr.io/<your_namespace>/product:1.0
 ```
 Now the image resides in the Cloud registry. You can also verify this within the Cloud service or via the following command:
  
@@ -264,69 +279,51 @@ Now the image resides in the Cloud registry. You can also verify this within the
 Listing images...
 
 Repository                        Tag   Digest         Namespace      Created      Size     Security status
-de.icr.io/ydbnamespace/product    1.0   30804ebe2a73   ydbnamespace   1 hour ago   269 MB   37 Issues
+de.icr.io/<namespace>/product    1.0   30804ebe2a73   ydbnamespace   1 hour ago   269 MB   37 Issues
 ```
+
+### Login to RedHat OpenShift environment
+
+Within the OpenShift Web-Console : click on your name in the top-right corner and select the 'Copy Login Command'.
+Click on the 'Display Token' link and copy the 'oc login ...' command.
+Execute this command in your local environment in order to login with token.
 
 ### Grant access to OpenShift to the IBM Cloud Container Registry
 
-* Create a Cloud API Key:
+* Create a Cloud API Key outside your project folder to avoid security exposure when checking-in into Github
 
 ```
 # ibmcloud iam api-key-create MyKey -d "this is my API key" --file mykey.json
 ```
 
-Create a Secret in OpenShift: Goto the OpenShift Console and select the Administrator perspective.
-Select Workloads -> Secrets, and create a new "Image Pull Secret", give it a name e.g. "mysecret".
+Create a Secret in OpenShift from the command-line:
 
-* Fill in the "Registry Server Address" : e.g. "de.icr.io" (depending on your selected region).
-* Username: iamapikey
-* Password: \<apikey from mykey.json-file>
+```
+# oc create secret docker-registry mysecret --docker-server=de.icr.io --docker-username=iamapikey --docker-password=<apikey from mykey.json-file>
+# oc secrets link default mysecret --for=pull
+
+```
 
 ### Create a kubernetes deployment and deploy to OpenShift
 
+Replace the following command to include <your_namespace> before executing !
+
 ```
-# kubectl create deployment product --image=de.icr.io/ydbnamespace/product:1.0 --dry-run=client -o=yaml > deployment.yaml
+# kubectl create deployment product --image=de.icr.io/<your_namespace>/product:1.0 --dry-run=client -o=yaml > deployment.yaml
+# cat deployment.yaml
 # kubectl apply -f deployment.yaml
 ```
 
 ### Create a service on Openshift for our deployment
 
 ```
-# kubectl create service clusterip product --tcp=8080:8080 --dry-run=client -o=yaml >> service.yaml
+# kubectl create service clusterip product --tcp=8000:8000 --dry-run=client -o=yaml >> service.yaml
 # kubectl apply -f service.yaml
 ```
 
 ### Create a route via ingress
 
-For this you will need to know the Ingress subdomain of your cluster.
-You can find this info at the Overview Summary page of you cluster.
-The Ingress subdomain is the DNS domain that has been reserved for your cluster.
-All applications that get deployed will get this domain as a suffix.
-
-Create a file 'ingress.yaml' - replace with the correct host info and apply the yaml file:
-
-```
-# cat ingress.yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: product-http-80
-spec:
-  rules:
-  - host: product.<Ingress subdomain>
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: product
-          servicePort: 8080
-# kubectl apply -f ingress.yaml
-```
-
-This will create an Ingress on Openshift and also create the route.
-Now the service should be accessible via the generated route.
-
-Alternatively, instead of using ingress, Openshift also provides an easy way to create a route via the following command:
+Openshift provides an easy way to create a route via the following command:
 
 ```
 # oc expose svc/product

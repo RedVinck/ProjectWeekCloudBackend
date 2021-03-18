@@ -1,6 +1,6 @@
 FROM openjdk:13-oracle
 VOLUME /tmp
-EXPOSE 8082
+EXPOSE 8000
 RUN mkdir -p /app/
 RUN mkdir -p /app/logs/
 ADD target/demo-0.0.1-SNAPSHOT.jar /app/app.jar

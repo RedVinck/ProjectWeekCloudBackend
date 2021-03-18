@@ -18,7 +18,7 @@ spec:
         app: product
     spec:
       containers:
-      - image: de.icr.io/ydbnamespace/product:2.0
+      - image: de.icr.io/ucllprep01/product:1.0
         name: product
         resources: {}
 status: {}
