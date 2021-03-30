@@ -4,9 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 
 @Entity
+@Table(name ="products")
 public class Product {
 
     @Id
@@ -15,14 +18,11 @@ public class Product {
     private String title;
     private String description;
     private String thumbnail_url;
-    private int quantity;
+    private Integer quantity;
     private float price;
 
-    public Product() {
 
-    }
-
-    public Product(String id, String title, String description, String thumbnail_url, int quantity, float price) {
+    public Product(String id, String title, String description, String thumbnail_url, Integer quantity, float price) {
         super();
         this.id = id;
         this.title = title;
@@ -30,6 +30,10 @@ public class Product {
         this.thumbnail_url = thumbnail_url;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public Product() {
+
     }
 
     public String getId() {
@@ -68,7 +72,7 @@ public class Product {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
