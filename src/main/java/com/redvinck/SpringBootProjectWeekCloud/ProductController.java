@@ -4,10 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -46,17 +43,25 @@ public class ProductController {
         );
     }
 
+    @RequestMapping("/all")
+        public List<Product> getAll() {
+            return productService.findAll();
+        }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteTeam(@PathVariable("id") long id) {
+        productService.deleteById(id);
+    }
+
     @RequestMapping("/add")
     public void addProduct(){
         Product laptop=new Product(
-                "1",
-                "macbook Retina 13.3' ME662 (2013)",
-                "3.0GHz Dual-core Haswell Intel Core i5 Turbo Boost up to 3.2 GHz, 3MB L3 cache 8GB (two 4GB SO-DIMMs) of 1600MHz DDR3 SDRAM",
-                "https://www.dropbox.com/s/swg9bdr0ejcbtrl/img9.jpg?raw=1",
-                10,
-                2399
+                "Macbook Pro 13.3' Retina MF841LL/A",
+                "Macbook Pro 13.3' Retina MF841LL/A Model 2015 Option Ram Care 12/2016",
+                "https://www.dropbox.com/s/6tqcep7rk29l59e/img2.jpeg?raw=1",
+                15,
+                1199
         );
         productService.save(laptop);
-
     }
 }

@@ -21,6 +21,18 @@ public class Product {
     private Integer quantity;
     private float price;
 
+    public Product() {
+
+    }
+
+    public Product(String title,String description, String thumbnail_url, Integer quantity, float price) {
+        super();
+        this.title = title;
+        this.description = description;
+        this.thumbnail_url = thumbnail_url;
+        this.quantity = quantity;
+        this.price = price;
+    }
 
     public Product(String id, String title, String description, String thumbnail_url, Integer quantity, float price) {
         super();
@@ -30,10 +42,6 @@ public class Product {
         this.thumbnail_url = thumbnail_url;
         this.quantity = quantity;
         this.price = price;
-    }
-
-    public Product() {
-
     }
 
     public String getId() {
