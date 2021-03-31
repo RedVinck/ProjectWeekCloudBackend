@@ -4,7 +4,7 @@ metadata:
   name: product-http-80
 spec:
   rules:
-  - host: ucllprep01.ocp-ucll-40cb0df2b03969eabb3fac6e80373775-0000.eu-de.containers.appdomain.cloud
+  - host: http://cactus-2-shopping-cartv2-ucllteam02.ocp-ucll-40cb0df2b03969eabb3fac6e80373775-0000.eu-de.containers.appdomain.cloud
     http:
       paths:
       - path: /
@@ -13,4 +13,4 @@ spec:
           service:
             name: product
             port:
-              number: 8000
+              number: 8080
