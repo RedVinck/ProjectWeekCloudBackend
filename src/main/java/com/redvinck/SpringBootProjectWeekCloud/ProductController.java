@@ -20,6 +20,9 @@ public class ProductController {
     @RequestMapping("/products")
     public List<Product> getAllProducts() {
         /*return Arrays.asList(
+=======
+       /* return Arrays.asList(
+>>>>>>> origin/master
             new Product(
                 "1",
                 "macbook Retina 13.3' ME662 (2013)",
