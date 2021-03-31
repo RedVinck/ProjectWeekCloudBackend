@@ -18,7 +18,7 @@ public class ProductController {
 
     @RequestMapping("/products")
     public List<Product> getAllProducts() {
-        return Arrays.asList(
+       /* return Arrays.asList(
             new Product(
                 "1",
                 "macbook Retina 13.3' ME662 (2013)",
@@ -43,7 +43,8 @@ public class ProductController {
                 1,
                 1800
             )
-        );
+        );*/
+        return productService.findAll();
     }
 
     @GetMapping("/check")
