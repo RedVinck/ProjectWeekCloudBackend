@@ -89,6 +89,7 @@ public class ProductController {
     }
 
     public void addProduct(){
+        //To be modified with updated parameters from front-end
         Product laptop=new Product(
                 "Macbook Pro 13.3' Retina MF841LL/A",
                 "Macbook Pro 13.3' Retina MF841LL/A Model 2015 Option Ram Care 12/2016",
