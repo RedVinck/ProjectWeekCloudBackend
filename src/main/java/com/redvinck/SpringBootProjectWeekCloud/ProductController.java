@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*, http://localhost:8080", allowedHeaders = "*", allowCredentials = "true")
+
 @RestController
 public class ProductController {
 
@@ -18,7 +19,7 @@ public class ProductController {
 
     @RequestMapping("/products")
     public List<Product> getAllProducts() {
-        return Arrays.asList(
+        /*return Arrays.asList(
             new Product(
                 "1",
                 "macbook Retina 13.3' ME662 (2013)",
@@ -43,7 +44,8 @@ public class ProductController {
                 1,
                 1800
             )
-        );
+        );*/
+        return productService.findAll();
     }
 
     @GetMapping("/check")
