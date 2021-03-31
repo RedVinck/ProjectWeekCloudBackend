@@ -9,10 +9,7 @@ import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-/*@CrossOrigin( origins = "http://localhost:8080", allowCredentials = "true")
-@RestController*/
-
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*, http://localhost:8080", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 public class ProductController {
 
@@ -79,6 +76,7 @@ public class ProductController {
         if (partnerRole) {
             System.out.println("Contains sequence 'partner': " + accessToken.getClaims().get("scope").toString());
             System.out.println("Contains sequence 'partner': " + accessToken.getClaims().get("scope").toString().contains("partner"));
+            addProduct();
             return "Product added";
         } else {
             return "Not Authorized to add product";
@@ -90,7 +88,6 @@ public class ProductController {
         productService.deleteById(id);
     }
 
-    @RequestMapping("/add")
     public void addProduct(){
         Product laptop=new Product(
                 "Macbook Pro 13.3' Retina MF841LL/A",
