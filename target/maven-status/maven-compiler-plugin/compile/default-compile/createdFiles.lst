@@ -1,0 +1,7 @@
+com\redvinck\SpringBootProjectWeekCloud\ScopeValidator.class
+com\redvinck\SpringBootProjectWeekCloud\WebSecurityConfiguration.class
+com\redvinck\SpringBootProjectWeekCloud\ProductRepository.class
+com\redvinck\SpringBootProjectWeekCloud\ProductService.class
+com\redvinck\SpringBootProjectWeekCloud\ProductController.class
+com\redvinck\SpringBootProjectWeekCloud\Product.class
+com\redvinck\SpringBootProjectWeekCloud\ProductApplication.class
